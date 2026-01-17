@@ -28,7 +28,7 @@ const DashboardHeader = () => (
         RT
       </div>
       <div>
-        <h1 className="text-lg md:text-2xl font-bold text-slate-900 leading-tight">Rahul Telecom</h1>
+        <h1 className="text-lg md:text-2xl font-bold text-slate-900 leading-tight">Rajat Telecom</h1>
         <div className="flex items-center gap-1.5">
           <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
           <p className="text-xs text-slate-500 font-medium">Online • ID: 88291</p>
