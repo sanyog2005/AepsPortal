@@ -20,126 +20,22 @@ const itemVar = {
   visible: { y: 0, opacity: 1, transition: { type: "spring", stiffness: 120, damping: 12 } }
 };
 
-// --- DATA ---
-const serviceCategories = [
-  {
-    title: "Banking & Transfers",
-    icon: Landmark,
-    items: [
-      { icon: Fingerprint, label: "AEPS Withdrawal", color: "purple", path: "/retailer/aeps" },
-      { icon: Fingerprint, label: "Aadhaar Pay", color: "purple", path: "/retailer/aeps" },
-      { icon: RefreshCw, label: "Money Transfer", color: "emerald", path: "/retailer/dmt" },
-      { icon: QrCode, label: "UPI Transfer", color: "emerald", path: "/retailer/upi" },
-      { icon: Banknote, label: "Quick Fund", color: "orange", path: "/retailer/wallet" },
-    ]
-  },
-  {
-    title: "Digital Wallets",
-    icon: Wallet,
-    items: [
-      { icon: Wallet, label: "Multi Wallet", color: "blue", path: "/retailer/wallet" },
-      { icon: Wallet, label: "PPI Wallet", color: "blue" },
-      { icon: Wallet, label: "DigiKhata", color: "blue" },
-      { icon: CardIcon, label: "Virtual Card", color: "indigo", action: "coming_soon" },
-    ]
-  },
-  {
-    title: "Utility & Bill Pay",
-    icon: Zap,
-    items: [
-      { icon: Smartphone, label: "Mobile Recharge", color: "cyan", action: "coming_soon" },
-      { icon: Satellite, label: "DTH Booking", color: "cyan", action: "coming_soon" },
-      { icon: Lightbulb, label: "Electricity Bill", color: "yellow", action: "coming_soon" },
-      { icon: Ticket, label: "Fastag Recharge", color: "green", action: "coming_soon" },
-      { icon: Fuel, label: "Gas Cylinder", color: "orange", action: "coming_soon" },
-      { icon: Receipt, label: "Credit Card Bill", color: "pink", action: "coming_soon" },
-    ]
-  },
-  {
-    title: "Merchant & Travel",
-    icon: Plane,
-    items: [
-      { icon: QrCode, label: "Show QR Code", color: "red", path: "/retailer/upi" },
-      { icon: Radio, label: "PG Gateway", color: "orange", action: "coming_soon" },
-      { icon: Tv, label: "CMS Collection", color: "teal", action: "coming_soon" },
-      { icon: Globe, label: "Flight Tickets", color: "sky", action: "coming_soon" },
-      { icon: Shield, label: "Insurance", color: "rose", action: "coming_soon" },
-    ]
-  }
-];
+// --- SUB-COMPONENTS ---
 
-const RetailerDashboard = () => {
-  const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState('My Business');
-
-  const tabContent = {
-    'My Business': {
-      header: "Business Overview",
-      cards: [
-        { label: "Money Transfer", value: "₹ 0.00", color: "emerald", path: "/retailer/reports" },
-        { label: "Utilities", value: "₹ 0.00", color: "rose" },
-        { label: "Credit Card", value: "₹ 0.00", color: "amber" },
-        { label: "Flight", value: "₹ 0.00", color: "sky" },
-        { label: "AEPS Volume", value: "₹ 0.00", color: "violet", wide: true, path: "/retailer/reports" }
-      ]
-    },
-    'Balance': {
-      header: "Wallet Ledger",
-      cards: [
-        { label: "Fund Request", value: "₹ 0.00", color: "emerald", path: "/retailer/wallet" },
-        { label: "Money Credit", value: "₹ 0.00", color: "blue" },
-        { label: "Money Debit", value: "₹ 0.00", color: "rose" },
-        { label: "Quick Paid", value: "₹ 0.00", color: "cyan" },
-        { label: "Quick Collect", value: "₹ 0.00", color: "violet", wide: true }
-      ]
-    },
-    'Refund Pending': {
-      header: "Pending Refunds",
-      cards: [
-        { label: "DMT Refund", value: "₹ 0.00", color: "emerald" },
-        { label: "Bill Refund", value: "₹ 0.00", color: "rose" },
-        { label: "Recharge Refund", value: "₹ 0.00", color: "amber" },
-        { label: "Travel Refund", value: "₹ 0.00", color: "sky" },
-        { label: "Total", value: "₹ 0.00", color: "slate", wide: true }
-      ]
-    },
-    'Pending Transactions': {
-      header: "Held Transactions",
-      cards: [
-        { label: "DMT Pending", value: "0", color: "emerald" },
-        { label: "Payout Pending", value: "0", color: "rose" },
-        { label: "Recharge Pending", value: "0", color: "amber" },
-        { label: "Bill Pending", value: "0", color: "sky" },
-        { label: "Total Count", value: "0", color: "slate", wide: true }
-      ]
-    }
-  };
-
-  const handleNavigation = (path) => {
-    if (path) navigate(path);
-    else alert("This module is currently under maintenance or coming soon.");
-  };
-
-  return (
-    <div className="min-h-screen bg-[#F1F5F9] pb-20 font-sans text-slate-800">
-      
-      {/* --- Sticky Header --- */}
-      <div className="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-200 shadow-sm">
-        <div className="max-w-[1600px] mx-auto px-6 py-4 flex flex-col md:flex-row justify-between items-center gap-6">
-          
-          {/* Wallet Widget */}
-          <div 
-            onClick={() => navigate('/retailer/wallet')}
-            className="group flex items-center gap-4 bg-slate-900 text-white pl-2 pr-6 py-2 rounded-full shadow-lg shadow-slate-300 cursor-pointer hover:scale-105 transition-all active:scale-95 border border-slate-700"
-          >
-            <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-emerald-400 to-teal-500 flex items-center justify-center text-white shadow-inner group-hover:rotate-12 transition-transform">
-              <Wallet size={18} fill="currentColor" fillOpacity={0.2} />
-            </div>
-            <div>
-              <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-none mb-1">Balance</p>
-              <p className="text-2xl font-mono font-bold leading-none">₹ 103.93</p>
-            </div>
-          </div>
+const DashboardHeader = () => (
+  <div className="flex justify-between items-center mb-6 sticky top-0 z-30 bg-[#F8FAFC]/80 backdrop-blur-md py-4 -mx-4 px-4 md:static md:bg-transparent md:p-0">
+    <div className="flex items-center gap-3">
+      <div className="w-10 h-10 md:w-12 md:h-12 bg-slate-900 rounded-2xl flex items-center justify-center text-white font-bold shadow-lg shadow-slate-900/20">
+        RT
+      </div>
+      <div>
+        <h1 className="text-lg md:text-2xl font-bold text-slate-900 leading-tight">Rahul Telecom</h1>
+        <div className="flex items-center gap-1.5">
+          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          <p className="text-xs text-slate-500 font-medium">Online • ID: 88291</p>
+        </div>
+      </div>
+    </div>
 
           {/* Marquee Alert */}
           <div className="flex-1 w-full md:w-auto bg-red-50 border border-red-100 rounded-xl py-2.5 px-4 flex items-center gap-3 overflow-hidden shadow-inner">
