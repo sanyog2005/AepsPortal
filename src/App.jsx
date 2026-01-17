@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 
 // --- Layouts & Config ---
 import DashboardLayout from './layouts/DashboardLayout';
-import { SUPER_ADMIN_LINKS, ADMIN_LINKS, RETAILER_LINKS } from './config/navigation'; 
+import { SUPER_ADMIN_LINKS, ADMIN_LINKS, RETAILER_LINKS,DISTRIBUTOR_LINKS } from './config/navigation'; 
 
 // --- Pages: Public ---
 import LandingPage from './LandingPage';
@@ -16,10 +16,28 @@ import Compliance from './pages/SuperAdmin/Compliance/Compliance';
 import DashboardHome from './pages/SuperAdmin/DashboardHome';
 import ProviderOnboarding from './pages/SuperAdmin/SystemControl/ProviderOnboarding';
 import ServiceMapping from './pages/SuperAdmin/SystemControl/ServiceMapping';
-import SwitchRouting from './Pages/SuperAdmin/SystemControl/PaymentReports';
+
 import CommissionSetup from './pages/SuperAdmin/SystemControl/CommissionSetup';
 import UserManagement from './Pages/SuperAdmin/Users/UserManagement';
 import PaymentReports from './Pages/SuperAdmin/SystemControl/PaymentReports';
+import BusinessSummary from './Pages/SuperAdmin/SystemControl/BuisnessSummary';
+import SupSettingsPage from './Pages/SuperAdmin/SettingsPage';
+
+
+// --- Pages: Admin2 ---
+import AReportsAnalytics from './pages/admin2/Reports/ReportsAnalytics';
+import AWalletManagement from './pages/admin2/Wallet/WalletManagement';
+import ACompliance from './pages/admin2/Compliance/Compliance';
+import ADashboardHome from './pages/admin2/DashboardHome';
+import AProviderOnboarding from './pages/admin2/SystemControl/ProviderOnboarding';
+import AServiceMapping from './pages/admin2/SystemControl/ServiceMapping';
+import ASwitchRouting from './Pages/admin2/SystemControl/PaymentReports';
+import ACommissionSetup from './pages/admin2/SystemControl/CommissionSetup';
+import AUserManagement from './Pages/admin2/Users/UserManagement';
+import APaymentReports from './Pages/admin2/SystemControl/PaymentReports';
+import ABusinessSummary from './Pages/admin2/SystemControl/BuisnessSummary';
+import ASettingsPage from './Pages/admin2/SettingsPage';
+
 
 
 // --- Pages: Admin ---
@@ -37,7 +55,28 @@ import UpiPage from './Pages/Retailer/UpiPage';
 import WalletPage from './Pages/Retailer/WalletPage';
 import ReportsPage from './Pages/Retailer/ReportsPage';
 import RetailerDashboard from './Pages/Retailer/RetailerDashboard'; // Or a dedicated Home/Overview component
-import BusinessSummary from './Pages/SuperAdmin/SystemControl/BuisnessSummary';
+import RetBusinessSummary from './Pages/Retailer/BuisnessSummary';
+import RetPaymentReports from './Pages/Retailer/PaymentReports';
+import ChargeCommissionPage from './Pages/Retailer/ChargeCommissionPage';
+import AccountStatementPage from './Pages/Retailer/AccountStatementPage';
+import ManageFundHistory from './Pages/Retailer/ManageFundHistory';
+import RefundPendingPage from './Pages/Retailer/RefundPendingPage';
+import FundRequestPage from './Pages/Retailer/FundRequestPage';
+import SettingsPage from './Pages/Retailer/SettingsPage';
+
+
+// --- Pages: Distributor ---
+import DistDashboardHome from './Pages/Distributor/DashboardHome';
+import DistBusinessSummary from './Pages/Distributor/BuisnessSummary';
+import DistUserManagement from './Pages/Distributor/Users/UserManagement';
+import DistReportsAnalytics from './Pages/Distributor/Reports/ReportsAnalytics';
+import DistPaymentReports from './Pages/Distributor/PaymentReports';
+import DistProviderOnboarding from './Pages/Distributor/ProviderOnboarding';
+import ManageFundsPage from './Pages/Distributor/ManageFundsPage';
+import DistSettingsPage from './Pages/Distributor/SettingsPage';
+
+
+
 
 // --- Helper: Placeholder ---
 const Placeholder = ({ title }) => (
@@ -78,6 +117,7 @@ function App() {
           <Route path="wallet" element={<WalletManagement />} />
           <Route path="users" element={<UserManagement title="User Management" />} />
           <Route path="statement" element={<ReportsAnalytics title="Global Reports & Analytics" />} />
+          <Route path="settings" element={<SupSettingsPage title="Settings Page" />} />
           <Route index element={<Navigate to="system/providers" replace />} />
         </Route>
 
@@ -91,13 +131,19 @@ function App() {
             />
           }
         >
-          <Route path="dashboard" element={<AdminDashboard />} />
-          <Route path="distributors" element={<Distributors title="Distributor Network" />} />
-          <Route path="kyc" element={<Compliance title="KYC Approvals" />} />
-          <Route path="disputes" element={<Reports title="Dispute Center" />} />
-          <Route path="wallet" element={<Finance title="Finance Operations" />} />
-          <Route path="support" element={<SupportDesk title="Support Desk" />} />
-          <Route index element={<Navigate to="dashboard" replace />} />
+           <Route path="dashboard" element={<ADashboardHome />} />
+          <Route path="system/providers" element={<AProviderOnboarding />} />
+          <Route path="system/mapping" element={<AServiceMapping />} />
+          <Route path="system/reports" element={<APaymentReports />} />
+          <Route path="system/buisnessSummary" element={<ABusinessSummary />} />
+          
+          <Route path="system/commissions" element={<ACommissionSetup />} />
+          <Route path="compliance" element={<ACompliance title="Compliance & KYC Policy" />} />
+          <Route path="wallet" element={<AWalletManagement />} />
+          <Route path="users" element={<AUserManagement title="User Management" />} />
+          <Route path="statement" element={<AReportsAnalytics title="Global Reports & Analytics" />} />
+          <Route path="settings" element={<ASettingsPage />} />
+          <Route index element={<Navigate to="system/providers" replace />} />
         </Route>
 
         {/* --- RETAILER PANEL (New) --- */}
@@ -112,6 +158,18 @@ function App() {
         >
           {/* Default Dashboard Overview */}
           <Route path="dashboard" element={<RetailerDashboard />} />
+          <Route path="buisnessSummary" element={<RetBusinessSummary />} />
+          <Route path="rreports" element={<RetPaymentReports />} />
+          <Route path="ChargeCommission" element={<ChargeCommissionPage />} />
+          <Route path="statement" element={<AccountStatementPage />} />
+          <Route path="manageFundHistory" element={<ManageFundHistory />} />
+          <Route path="refundPending" element={<RefundPendingPage />} />
+          <Route path="fundRequest" element={<FundRequestPage />} />
+
+          <Route path="settings" element={<SettingsPage />} />
+
+
+
           
           {/* Service Modules */}
           <Route path="aeps" element={<AepsPage />} />
@@ -122,6 +180,33 @@ function App() {
 
           {/* Default Redirect */}
           <Route index element={<Navigate to="dashboard" replace />} />
+        </Route>
+
+        {/* --- DISTRIBUTOR PANEL --- */}
+        <Route 
+          path="/distributor" 
+          element={
+            <DashboardLayout 
+              role="Distributor" 
+              links={DISTRIBUTOR_LINKS} 
+            />
+          }
+        > 
+        <Route path="dashboard" element={<DistDashboardHome />} />
+          <Route path="buisnessSummary" element={<DistBusinessSummary />} />
+          <Route path="users" element={<DistUserManagement />} />
+          <Route path="statements" element={<DistReportsAnalytics />} />
+          <Route path="reports" element={<DistPaymentReports />} />
+          <Route path="moneyReq" element={<DistProviderOnboarding />} />
+          <Route path="manageFunds" element={<ManageFundsPage />} />
+          <Route path="settings" element={<DistSettingsPage />} />
+
+
+
+
+
+        <Route index element={<Navigate to="dashboard" replace />} />
+        
         </Route>
 
       </Routes>

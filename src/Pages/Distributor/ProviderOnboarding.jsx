@@ -20,8 +20,7 @@ const INITIAL_HISTORY = [
 const INITIAL_BANKS = [
     { id: 1, type: "Bank", name: "HDFC Bank", accountNo: "50200012345678", ifsc: "HDFC0001234", branch: "Connaught Place", status: "Active", holder: "QuickNPay Pvt Ltd" },
     { id: 2, type: "Bank", name: "ICICI Bank", accountNo: "002105004421", ifsc: "ICIC0000021", branch: "Sector 18", status: "Active", holder: "QuickNPay Solutions" },
-    { id: 3, type: "API", name: "Yes Bank API", endpoint: "https://api.yesbank.in/v2", key: "sk_live_...", latency: "45ms", status: "Active" },
-    { id: 4, type: "API", name: "Razorpay PG", endpoint: "https://api.razorpay.com", key: "rzp_live_...", latency: "120ms", status: "Active" },
+    
 ];
 
 // --- COMPONENTS ---
@@ -86,31 +85,9 @@ const BankCard = ({ bank, onDelete }) => (
     </div>
 );
 
-const APICard = ({ api, onDelete }) => (
-    <div className="bg-white border border-slate-200 p-5 rounded-2xl shadow-sm hover:shadow-md transition-all relative group">
-        <button onClick={() => onDelete(api.id)} className="absolute top-4 right-4 text-slate-300 hover:text-rose-500 opacity-0 group-hover:opacity-100 transition-all">
-            <Trash2 size={16} />
-        </button>
 
-        <div className="flex items-start gap-4">
-            <div className="w-12 h-12 rounded-xl bg-indigo-50 border border-indigo-100 flex items-center justify-center text-indigo-600">
-                <Server size={20}/>
-            </div>
-            <div className="flex-1 overflow-hidden">
-                <div className="flex items-center gap-2 mb-1">
-                    <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-indigo-100 text-indigo-700">API</span>
-                    <span className="text-[10px] font-bold text-emerald-600 flex items-center gap-1"><Activity size={10}/> {api.latency}</span>
-                </div>
-                <h4 className="font-bold text-slate-900">{api.name}</h4>
-                <div className="mt-3 p-2 bg-slate-50 rounded border border-slate-100 font-mono text-xs text-slate-500 truncate">
-                    {api.endpoint}
-                </div>
-            </div>
-        </div>
-    </div>
-);
 
-const ProviderOnboarding = () => {
+const DistProviderOnboarding = () => {
   const [activeTab, setActiveTab] = useState('pending');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSlipOpen, setIsSlipOpen] = useState(false);
@@ -192,7 +169,7 @@ const ProviderOnboarding = () => {
                           />
                       )}
                       <span className="relative z-10 capitalize">
-                          {tab === 'banks' ? 'Bank & API Master' : tab === 'all' ? 'History' : 'Pending Requests'}
+                          {tab === 'banks' ? 'Bank' : tab === 'all' ? 'History' : 'Pending Requests'}
                       </span>
                   </button>
               ))}
@@ -350,16 +327,7 @@ const ProviderOnboarding = () => {
                         </div>
 
                         {/* Section: API Partners */}
-                        <div>
-                            <h3 className="text-sm font-bold text-slate-500 uppercase tracking-wider mb-4 flex items-center gap-2">
-                                <Server size={16}/> Connected APIs
-                            </h3>
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                                {banks.filter(b => b.type === 'API' && b.name.toLowerCase().includes(searchTerm.toLowerCase())).map(api => (
-                                    <APICard key={api.id} api={api} onDelete={(id) => setBanks(banks.filter(b => b.id !== id))} />
-                                ))}
-                            </div>
-                        </div>
+                        
                     </div>
                 </div>
             )}
@@ -383,9 +351,8 @@ const ProviderOnboarding = () => {
                     </div>
                     
                     <form onSubmit={handleSaveEntry} className="p-6 space-y-5">
-                        <div className="grid grid-cols-2 gap-3 p-1 bg-slate-100 rounded-xl">
+                        <div className="grid grid-cols-1 gap-3 p-1 bg-slate-100 rounded-xl">
                             <button type="button" onClick={() => setEntryType("Bank")} className={`py-2.5 rounded-lg text-sm font-bold transition-all ${entryType === 'Bank' ? 'bg-white text-blue-600 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}>Admin Bank</button>
-                            <button type="button" onClick={() => setEntryType("API")} className={`py-2.5 rounded-lg text-sm font-bold transition-all ${entryType === 'API' ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}>API Partner</button>
                         </div>
 
                         <div>
@@ -462,4 +429,4 @@ const ProviderOnboarding = () => {
   );
 };
 
-export default ProviderOnboarding;
+export default DistProviderOnboarding;

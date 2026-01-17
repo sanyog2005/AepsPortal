@@ -110,7 +110,7 @@ const APICard = ({ api, onDelete }) => (
     </div>
 );
 
-const ProviderOnboarding = () => {
+const AProviderOnboarding = () => {
   const [activeTab, setActiveTab] = useState('pending');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSlipOpen, setIsSlipOpen] = useState(false);
@@ -462,4 +462,4 @@ const ProviderOnboarding = () => {
   );
 };
 
-export default ProviderOnboarding;
+export default AProviderOnboarding;

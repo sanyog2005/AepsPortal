@@ -22,28 +22,49 @@ export const SUPER_ADMIN_LINKS = [
   { label: "Compliance & KYC", path: "/super-admin/compliance", icon: <Shield size={20} /> },
   { label: "Manage Funds", path: "/super-admin/wallet", icon: <Wallet size={20} /> },
   { label: "Statements", path: "/super-admin/statement", icon: <BarChart3 size={20} /> },
+  { header: "Settings" },
+  { label: "Settings", path: "/super-admin/settings", icon: <Settings size={20} /> },
 ];
 
 export const ADMIN_LINKS = [
-  { header: "Overview" },
-  { label: "Dashboard", path: "/admin/dashboard", icon: <LayoutDashboard size={20} /> },
+ { label: "Overview", path: "/Admin/dashboard", icon: <LayoutDashboard size={20} /> },
+  { header: "System Control" }, 
+  { label: "Money Request", path: "/Admin/system/providers", icon: <Share2 size={20}/> },
+  // { label: "API Mapping", path: "/super-admin/system/mapping", icon: <Share2 size={20} /> },
+  { label: "Business Summary", path: "/Admin/system/buisnessSummary", icon: <Settings size={20} /> },
+  { label: "Reports", path: "/Admin/system/reports", icon: <GitMerge size={20} /> },
+  // { label: "Commissions", path: "/super-admin/system/commissions", icon: <DollarSign size={20} /> },
   
-  { header: "Operations" },
-  { label: "User Management", path: "/admin/distributors", icon: <Users size={20} /> },
-  { label: "KYC Approvals", path: "/admin/kyc", icon: <FileCheck size={20} /> },
-  { label: "Reports", path: "/admin/disputes", icon: <AlertTriangle size={20} /> },
-  { label: "Finances", path: "/admin/wallet", icon: <Wallet size={20} /> },
-  { label: "Support Desk", path: "/admin/support", icon: <Shield size={20} /> },
+  { header: "Management" },
+  { label: "Users", path: "/Admin/users", icon: <Users size={20} /> },
+  { label: "Compliance & KYC", path: "/Admin/compliance", icon: <Shield size={20} /> },
+  { label: "Manage Funds", path: "/Admin/wallet", icon: <Wallet size={20} /> },
+  { label: "Statements", path: "/Admin/statement", icon: <BarChart3 size={20} /> },
+  { header: "Settings" },
+  { label: "Settings", path: "/Admin/settings", icon: <Settings size={20} /> },
 ];
 
 export const DISTRIBUTOR_LINKS = [
+  { label: "Overview", path: "/distributor/dashboard", icon: <LayoutDashboard size={20} /> },
+
   { header: "Network" },
-  { label: "My Retailers", path: "/distributor/retailers", icon: <UserPlus size={20} /> },
-  { label: "Fund Transfer", path: "/distributor/funds", icon: <Banknote size={20} /> },
   
-  { header: "Earnings" },
-  { label: "Commissions", path: "/distributor/commissions", icon: <BarChart3 size={20} /> },
-  { label: "Support", path: "/distributor/support", icon: <Shield size={20} /> },
+    { label: "Business Summary", path: "/distributor/buisnessSummary", icon: <Fingerprint size={20} /> },
+
+    { label: "Users", path: "/distributor/users", icon: <Users size={20} /> },
+
+
+    { label: "statements", path: "/distributor/statements", icon: <GitMerge size={20} /> },
+    
+  { label: "Reports", path: "/distributor/reports", icon: <GitMerge size={20} /> },
+    { label: "Money Request", path: "/distributor/moneyReq", icon: <Share2 size={20}/> },
+  { label: "Manage Funds", path: "/distributor/manageFunds", icon: <Wallet size={20} /> },
+ { header: "Settings" },
+  { label: "Settings", path: "/distributor/settings", icon: <Settings size={20} /> },
+  
+    
+
+  
 ];
 
 // ✅ UPDATED RETAILER LINKS
@@ -52,13 +73,25 @@ export const RETAILER_LINKS = [
   { label: "Dashboard", path: "/retailer/dashboard", icon: <LayoutDashboard size={20} /> },
 
   { header: "Services" },
-  { label: "AEPS Banking", path: "/retailer/aeps", icon: <Fingerprint size={20} /> },
-  { label: "Money Transfer", path: "/retailer/dmt", icon: <Send size={20} /> },
-  { label: "UPI Payment", path: "/retailer/upi", icon: <QrCode size={20} /> },
+  { label: "Business Summary", path: "/retailer/buisnessSummary", icon: <Fingerprint size={20} /> },
+
+   { label: "Reports", path: "/retailer/rreports", icon: <GitMerge size={20} /> },
+
+   { label: "Charge Commission", path: "/retailer/ChargeCommission", icon: <DollarSign size={20} /> },
+
+  { header: "Account" },
+  { label: "Manage Fund History", path: "/retailer/manageFundHistory", icon: <History size={20} /> },
+  { label: "Refund Pending", path: "/retailer/refundPending", icon: <History size={20} /> },
+  { label: "Fund Request", path: "/retailer/fundRequest", icon: <History size={20} /> },
+
+     { label: "statement", path: "/retailer/statement", icon: <GitMerge size={20} /> },
+
   
   { header: "Account" },
   { label: "Wallet & Funds", path: "/retailer/wallet", icon: <Wallet size={20} /> },
   { label: "Reports & Receipts", path: "/retailer/reports", icon: <FileText size={20} /> },
+  { header: "Settings" },
+  { label: "Settings", path: "/retailer/settings", icon: <Settings size={20} /> },
 ];
 
 // --- SIDEBAR COMPONENT ---

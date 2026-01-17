@@ -1,322 +1,349 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-  Fingerprint, Send, QrCode, Wallet, FileText, 
-  ArrowUpRight, TrendingUp, AlertCircle, Search,
-  Smartphone, CreditCard, RefreshCw, CheckCircle2,
-  Bell, ChevronRight, Plus, Menu, X, ArrowDownLeft
+  Wallet, RefreshCw, Smartphone, Satellite, Lightbulb, 
+  CreditCard, QrCode, Shield, Radio, Fuel, 
+  Tv, Globe, Fingerprint, Banknote, 
+  Ticket, AlertTriangle, ChevronRight, Zap, 
+  CreditCard as CardIcon, Plane, Landmark, Receipt, ArrowRight
 } from 'lucide-react';
 
 // --- ANIMATION VARIANTS ---
 const containerVar = {
   hidden: { opacity: 0 },
-  visible: { opacity: 1, transition: { staggerChildren: 0.05 } }
+  visible: { opacity: 1, transition: { staggerChildren: 0.04 } }
 };
 
 const itemVar = {
-  hidden: { y: 20, opacity: 0 },
-  visible: { y: 0, opacity: 1, transition: { type: "spring", stiffness: 50 } }
+  hidden: { y: 15, opacity: 0 },
+  visible: { y: 0, opacity: 1, transition: { type: "spring", stiffness: 120, damping: 12 } }
 };
 
-// --- SUB-COMPONENTS ---
-
-const DashboardHeader = () => (
-  <div className="flex justify-between items-center mb-6 sticky top-0 z-30 bg-[#F8FAFC]/80 backdrop-blur-md py-4 -mx-4 px-4 md:static md:bg-transparent md:p-0">
-    <div className="flex items-center gap-3">
-      <div className="w-10 h-10 md:w-12 md:h-12 bg-slate-900 rounded-2xl flex items-center justify-center text-white font-bold shadow-lg shadow-slate-900/20">
-        RT
-      </div>
-      <div>
-        <h1 className="text-lg md:text-2xl font-bold text-slate-900 leading-tight">Rahul Telecom</h1>
-        <div className="flex items-center gap-1.5">
-          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-          <p className="text-xs text-slate-500 font-medium">Online • ID: 88291</p>
-        </div>
-      </div>
-    </div>
-
-    <div className="flex items-center gap-3">
-      {/* Mobile Search Icon / Desktop Search Bar */}
-      <div className="hidden md:flex relative group">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-500 transition-colors" size={16} />
-        <input 
-          type="text" 
-          placeholder="Search..." 
-          className="pl-9 pr-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm outline-none focus:ring-2 focus:ring-blue-500/20 w-64 transition-all"
-        />
-      </div>
-      <button className="md:hidden p-2.5 bg-white border border-slate-200 rounded-xl text-slate-600">
-        <Search size={20} />
-      </button>
-
-      <button className="relative p-2.5 bg-white border border-slate-200 rounded-xl text-slate-600 hover:bg-slate-50 transition-colors">
-        <Bell size={20} />
-        <span className="absolute top-2 right-2.5 w-2 h-2 bg-rose-500 rounded-full border border-white"></span>
-      </button>
-    </div>
-  </div>
-);
-
-const WalletCard = ({ navigate }) => (
-  <div className="bg-slate-900 rounded-[2rem] p-6 md:p-8 text-white relative overflow-hidden shadow-xl shadow-slate-900/20 group h-full flex flex-col justify-between">
-    {/* Abstract Art */}
-    <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-500/20 rounded-full blur-3xl -mr-16 -mt-16 group-hover:bg-indigo-500/30 transition-colors duration-500"></div>
-    
-    <div className="relative z-10">
-      <div className="flex justify-between items-start mb-6">
-        <div>
-          <p className="text-indigo-200 text-xs font-bold uppercase tracking-wider mb-1">Total Balance</p>
-          <h2 className="text-4xl md:text-5xl font-bold tracking-tighter">
-            ₹ 24,590<span className="text-2xl text-slate-500">.00</span>
-          </h2>
-        </div>
-        <div className="p-3 bg-white/10 rounded-2xl backdrop-blur-sm border border-white/10">
-          <Wallet size={24} className="text-indigo-400" />
-        </div>
-      </div>
-
-      <div className="flex gap-3">
-        <button 
-          onClick={() => navigate('/retailer/wallet')}
-          className="flex-1 bg-indigo-600 hover:bg-indigo-500 text-white py-3 rounded-xl text-sm font-bold shadow-lg shadow-indigo-900/50 transition-all active:scale-95 flex items-center justify-center gap-2"
-        >
-          <Plus size={18} /> Add Money
-        </button>
-        <button 
-          onClick={() => navigate('/retailer/reports')}
-          className="px-4 py-3 bg-white/10 hover:bg-white/20 border border-white/10 rounded-xl text-white transition-all backdrop-blur-md"
-        >
-          <FileText size={20} />
-        </button>
-      </div>
-    </div>
-  </div>
-);
-
-const SettlementCard = ({ navigate }) => (
-  <div className="bg-white rounded-[2rem] p-6 md:p-8 border border-slate-200 shadow-sm relative overflow-hidden h-full flex flex-col justify-between group">
-    <div className="absolute -right-6 -top-6 text-slate-50 group-hover:text-slate-100 transition-colors">
-      <Fingerprint size={140} />
-    </div>
-    
-    <div className="relative z-10">
-      <div className="flex justify-between items-center mb-6">
-        <p className="text-slate-500 text-xs font-bold uppercase tracking-wider">AEPS Settlement</p>
-        <div className="flex items-center gap-1 text-xs font-bold text-emerald-600 bg-emerald-50 px-2 py-1 rounded-lg">
-          <ArrowDownLeft size={14} /> +₹1,240
-        </div>
-      </div>
-      <h2 className="text-3xl md:text-4xl font-bold text-slate-800 tracking-tight mb-6">
-        ₹ 12,450<span className="text-xl text-slate-400">.50</span>
-      </h2>
-      
-      <button 
-        onClick={() => navigate('/retailer/wallet')}
-        className="w-full py-3 bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200 rounded-xl text-sm font-bold transition-all flex items-center justify-center gap-2 group-hover:border-slate-300"
-      >
-        Move to Bank <ArrowUpRight size={16} />
-      </button>
-    </div>
-  </div>
-);
-
-const StatWidget = ({ icon: Icon, label, value, trend, color }) => (
-  <div className="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm flex items-center gap-4 hover:shadow-md transition-shadow">
-    <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${color} text-white shadow-md`}>
-      <Icon size={20} />
-    </div>
-    <div>
-      <p className="text-slate-400 text-xs font-bold uppercase">{label}</p>
-      <div className="flex items-end gap-2">
-        <h4 className="text-xl font-bold text-slate-800 leading-none">{value}</h4>
-        {trend && (
-          <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded mb-0.5">
-            {trend}
-          </span>
-        )}
-      </div>
-    </div>
-  </div>
-);
-
-// 5. Responsive Transaction List
-const TransactionList = ({ navigate }) => {
-  const transactions = [
-    { name: "AEPS Withdrawal", id: "TXN_882901", status: "Success", amt: "2,000.00", icon: Fingerprint, col: "text-orange-500", bg: "bg-orange-50" },
-    { name: "Money Transfer", id: "TXN_882902", status: "Pending", amt: "5,000.00", icon: Send, col: "text-blue-500", bg: "bg-blue-50" },
-    { name: "Jio Recharge", id: "TXN_882903", status: "Failed", amt: "299.00", icon: Smartphone, col: "text-purple-500", bg: "bg-purple-50" },
-    { name: "UPI Payment", id: "TXN_882904", status: "Success", amt: "150.00", icon: QrCode, col: "text-emerald-500", bg: "bg-emerald-50" },
-  ];
-
-  return (
-    <div className="bg-white rounded-[2rem] border border-slate-200 shadow-sm overflow-hidden">
-      <div className="p-6 border-b border-slate-100 flex justify-between items-center">
-        <h3 className="font-bold text-lg text-slate-800">Recent Transactions</h3>
-        <button onClick={() => navigate('/retailer/reports')} className="text-sm font-bold text-blue-600 hover:text-blue-700">See All</button>
-      </div>
-      
-      {/* Desktop Table */}
-      <div className="hidden md:block overflow-x-auto">
-        <table className="w-full text-left">
-          <thead className="bg-slate-50 text-xs text-slate-400 uppercase font-bold">
-            <tr>
-              <th className="px-6 py-4">Service</th>
-              <th className="px-6 py-4">Txn ID</th>
-              <th className="px-6 py-4 text-center">Status</th>
-              <th className="px-6 py-4 text-right">Amount</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-slate-50 text-sm">
-            {transactions.map((row, i) => (
-              <tr key={i} className="hover:bg-slate-50/80 transition-colors">
-                <td className="px-6 py-4">
-                  <div className="flex items-center gap-4">
-                    <div className={`w-10 h-10 rounded-xl ${row.bg} ${row.col} flex items-center justify-center`}>
-                      <row.icon size={18} />
-                    </div>
-                    <div>
-                      <p className="font-bold text-slate-700">{row.name}</p>
-                      <p className="text-xs text-slate-400">Today, 12:30 PM</p>
-                    </div>
-                  </div>
-                </td>
-                <td className="px-6 py-4 font-mono text-slate-500 text-xs">{row.id}</td>
-                <td className="px-6 py-4 text-center">
-                  <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold ${
-                    row.status === 'Success' ? 'bg-emerald-50 text-emerald-600' : 
-                    row.status === 'Failed' ? 'bg-rose-50 text-rose-600' : 'bg-amber-50 text-amber-600'
-                  }`}>
-                    {row.status}
-                  </span>
-                </td>
-                <td className="px-6 py-4 text-right font-bold text-slate-800">₹ {row.amt}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-
-      {/* Mobile List View */}
-      <div className="md:hidden divide-y divide-slate-100">
-        {transactions.map((row, i) => (
-          <div key={i} className="p-4 flex items-center justify-between hover:bg-slate-50">
-            <div className="flex items-center gap-3">
-              <div className={`w-10 h-10 rounded-xl ${row.bg} ${row.col} flex items-center justify-center`}>
-                <row.icon size={18} />
-              </div>
-              <div>
-                <p className="font-bold text-slate-800 text-sm">{row.name}</p>
-                <div className="flex gap-2 text-xs">
-                  <span className="text-slate-400">{row.id.slice(-6)}</span>
-                  <span className={`${
-                    row.status === 'Success' ? 'text-emerald-600' : 
-                    row.status === 'Failed' ? 'text-rose-600' : 'text-amber-600'
-                  } font-bold`}>• {row.status}</span>
-                </div>
-              </div>
-            </div>
-            <div className="text-right">
-              <p className="font-bold text-slate-800">₹ {row.amt}</p>
-              <p className="text-[10px] text-slate-400">12:30 PM</p>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-};
-
-// 6. Floating Glass Dock
-const FloatingDock = ({ navigate, onComingSoon }) => {
-  const dockItems = [
-    { label: 'AEPS', icon: Fingerprint, color: 'text-orange-500', bg: 'bg-orange-50', route: '/retailer/aeps' },
-    { label: 'Transfer', icon: Send, color: 'text-blue-500', bg: 'bg-blue-50', route: '/retailer/dmt' },
-    { label: 'UPI', icon: QrCode, color: 'text-emerald-500', bg: 'bg-emerald-50', route: '/retailer/upi' },
-    { label: 'Recharge', icon: Smartphone, color: 'text-purple-500', bg: 'bg-purple-50', action: onComingSoon },
-    { label: 'Bill Pay', icon: CreditCard, color: 'text-indigo-500', bg: 'bg-indigo-50', action: onComingSoon },
-    { label: 'History', icon: FileText, color: 'text-slate-600', bg: 'bg-slate-100', route: '/retailer/reports' },
-  ];
-
-  return (
-    <motion.div 
-      initial={{ y: 100 }} animate={{ y: 0 }} 
-      transition={{ type: "spring", stiffness: 200, damping: 20 }}
-      className="fixed bottom-6 left-0 right-0 z-50 flex justify-center pointer-events-none px-4"
-    >
-      <div className="pointer-events-auto bg-white/80 backdrop-blur-xl border border-white/40 shadow-[0_20px_40px_-12px_rgba(0,0,0,0.1)] rounded-2xl p-2 flex gap-2 md:gap-4 overflow-x-auto no-scrollbar max-w-full">
-        {dockItems.map((item, i) => (
-          <motion.button
-            key={i}
-            whileHover={{ scale: 1.15, y: -5 }}
-            whileTap={{ scale: 0.9 }}
-            onClick={() => item.route ? navigate(item.route) : item.action()}
-            className="flex flex-col items-center gap-1.5 min-w-[64px] p-2 rounded-xl transition-all group"
-          >
-            <div className={`w-11 h-11 rounded-2xl ${item.bg} flex items-center justify-center shadow-sm group-hover:shadow-lg transition-all border border-transparent group-hover:border-white/50`}>
-              <item.icon size={22} className={item.color} />
-            </div>
-            <span className="text-[10px] font-bold text-slate-500 group-hover:text-slate-900 transition-colors whitespace-nowrap">
-              {item.label}
-            </span>
-          </motion.button>
-        ))}
-      </div>
-    </motion.div>
-  );
-};
-
-// --- MAIN RETAILER DASHBOARD ---
+// --- DATA ---
+const serviceCategories = [
+  {
+    title: "Banking & Transfers",
+    icon: Landmark,
+    items: [
+      { icon: Fingerprint, label: "AEPS Withdrawal", color: "purple", path: "/retailer/aeps" },
+      { icon: Fingerprint, label: "Aadhaar Pay", color: "purple", path: "/retailer/aeps" },
+      { icon: RefreshCw, label: "Money Transfer", color: "emerald", path: "/retailer/dmt" },
+      { icon: QrCode, label: "UPI Transfer", color: "emerald", path: "/retailer/upi" },
+      { icon: Banknote, label: "Quick Fund", color: "orange", path: "/retailer/wallet" },
+    ]
+  },
+  {
+    title: "Digital Wallets",
+    icon: Wallet,
+    items: [
+      { icon: Wallet, label: "Multi Wallet", color: "blue", path: "/retailer/wallet" },
+      { icon: Wallet, label: "PPI Wallet", color: "blue" },
+      { icon: Wallet, label: "DigiKhata", color: "blue" },
+      { icon: CardIcon, label: "Virtual Card", color: "indigo", action: "coming_soon" },
+    ]
+  },
+  {
+    title: "Utility & Bill Pay",
+    icon: Zap,
+    items: [
+      { icon: Smartphone, label: "Mobile Recharge", color: "cyan", action: "coming_soon" },
+      { icon: Satellite, label: "DTH Booking", color: "cyan", action: "coming_soon" },
+      { icon: Lightbulb, label: "Electricity Bill", color: "yellow", action: "coming_soon" },
+      { icon: Ticket, label: "Fastag Recharge", color: "green", action: "coming_soon" },
+      { icon: Fuel, label: "Gas Cylinder", color: "orange", action: "coming_soon" },
+      { icon: Receipt, label: "Credit Card Bill", color: "pink", action: "coming_soon" },
+    ]
+  },
+  {
+    title: "Merchant & Travel",
+    icon: Plane,
+    items: [
+      { icon: QrCode, label: "Show QR Code", color: "red", path: "/retailer/upi" },
+      { icon: Radio, label: "PG Gateway", color: "orange", action: "coming_soon" },
+      { icon: Tv, label: "CMS Collection", color: "teal", action: "coming_soon" },
+      { icon: Globe, label: "Flight Tickets", color: "sky", action: "coming_soon" },
+      { icon: Shield, label: "Insurance", color: "rose", action: "coming_soon" },
+    ]
+  }
+];
 
 const RetailerDashboard = () => {
   const navigate = useNavigate();
-  const handleComingSoon = () => alert("Module coming soon!");
+  const [activeTab, setActiveTab] = useState('My Business');
+
+  const tabContent = {
+    'My Business': {
+      header: "Business Overview",
+      cards: [
+        { label: "Money Transfer", value: "₹ 0.00", color: "emerald", path: "/retailer/reports" },
+        { label: "Utilities", value: "₹ 0.00", color: "rose" },
+        { label: "Credit Card", value: "₹ 0.00", color: "amber" },
+        { label: "Flight", value: "₹ 0.00", color: "sky" },
+        { label: "AEPS Volume", value: "₹ 0.00", color: "violet", wide: true, path: "/retailer/reports" }
+      ]
+    },
+    'Balance': {
+      header: "Wallet Ledger",
+      cards: [
+        { label: "Fund Request", value: "₹ 0.00", color: "emerald", path: "/retailer/wallet" },
+        { label: "Money Credit", value: "₹ 0.00", color: "blue" },
+        { label: "Money Debit", value: "₹ 0.00", color: "rose" },
+        { label: "Quick Paid", value: "₹ 0.00", color: "cyan" },
+        { label: "Quick Collect", value: "₹ 0.00", color: "violet", wide: true }
+      ]
+    },
+    'Refund Pending': {
+      header: "Pending Refunds",
+      cards: [
+        { label: "DMT Refund", value: "₹ 0.00", color: "emerald" },
+        { label: "Bill Refund", value: "₹ 0.00", color: "rose" },
+        { label: "Recharge Refund", value: "₹ 0.00", color: "amber" },
+        { label: "Travel Refund", value: "₹ 0.00", color: "sky" },
+        { label: "Total", value: "₹ 0.00", color: "slate", wide: true }
+      ]
+    },
+    'Pending Transactions': {
+      header: "Held Transactions",
+      cards: [
+        { label: "DMT Pending", value: "0", color: "emerald" },
+        { label: "Payout Pending", value: "0", color: "rose" },
+        { label: "Recharge Pending", value: "0", color: "amber" },
+        { label: "Bill Pending", value: "0", color: "sky" },
+        { label: "Total Count", value: "0", color: "slate", wide: true }
+      ]
+    }
+  };
+
+  const handleNavigation = (path) => {
+    if (path) navigate(path);
+    else alert("This module is currently under maintenance or coming soon.");
+  };
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] px-4 md:px-8 pb-32 font-sans selection:bg-indigo-100">
-      <motion.div 
-        className="max-w-7xl mx-auto pt-4 md:pt-8"
-        variants={containerVar}
-        initial="hidden"
-        animate="visible"
-      >
-        <DashboardHeader />
-
-        {/* Top Grid: Wallets & Stats */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-          <motion.div variants={itemVar} className="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
-            <WalletCard navigate={navigate} />
-            <SettlementCard navigate={navigate} />
-          </motion.div>
+    <div className="min-h-screen bg-[#F1F5F9] pb-20 font-sans text-slate-800">
+      
+      {/* --- Sticky Header --- */}
+      <div className="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-200 shadow-sm">
+        <div className="max-w-[1600px] mx-auto px-6 py-4 flex flex-col md:flex-row justify-between items-center gap-6">
           
-          <motion.div variants={itemVar} className="flex flex-col gap-4">
-            <StatWidget icon={TrendingUp} label="Earnings Today" value="₹ 845.00" trend="+12%" color="bg-emerald-500" />
-            <StatWidget icon={CheckCircle2} label="Success Rate" value="99.2%" trend="Stable" color="bg-blue-500" />
-            <StatWidget icon={AlertCircle} label="Pending Txns" value="03" color="bg-orange-500" />
-            <div className="flex-1 bg-gradient-to-br from-violet-600 to-indigo-600 rounded-2xl p-5 text-white flex items-center justify-between shadow-lg relative overflow-hidden group cursor-pointer hover:scale-[1.02] transition-transform">
-                <div className="relative z-10">
-                    <p className="text-indigo-200 text-xs font-bold uppercase mb-1">Promotional</p>
-                    <h3 className="font-bold text-lg leading-tight">Get 20% Extra<br/>Commission</h3>
-                </div>
-                <div className="w-12 h-12 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center">
-                    <ArrowUpRight size={24} />
-                </div>
-                <div className="absolute -right-6 -bottom-6 w-24 h-24 bg-white/10 rounded-full blur-xl"></div>
+          {/* Wallet Widget */}
+          <div 
+            onClick={() => navigate('/retailer/wallet')}
+            className="group flex items-center gap-4 bg-slate-900 text-white pl-2 pr-6 py-2 rounded-full shadow-lg shadow-slate-300 cursor-pointer hover:scale-105 transition-all active:scale-95 border border-slate-700"
+          >
+            <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-emerald-400 to-teal-500 flex items-center justify-center text-white shadow-inner group-hover:rotate-12 transition-transform">
+              <Wallet size={18} fill="currentColor" fillOpacity={0.2} />
             </div>
-          </motion.div>
-        </div>
+            <div>
+              <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-none mb-1">Balance</p>
+              <p className="text-2xl font-mono font-bold leading-none">₹ 103.93</p>
+            </div>
+          </div>
 
-        {/* Transaction History */}
-        <motion.div variants={itemVar}>
-          <TransactionList navigate={navigate} />
+          {/* Marquee Alert */}
+          <div className="flex-1 w-full md:w-auto bg-red-50 border border-red-100 rounded-xl py-2.5 px-4 flex items-center gap-3 overflow-hidden shadow-inner">
+            <span className="flex items-center gap-1 text-[10px] font-bold bg-red-500 text-white px-2 py-0.5 rounded uppercase shrink-0 animate-pulse">
+              <AlertTriangle size={10} /> Alert
+            </span>
+            <div className="flex-1 overflow-hidden relative h-5">
+               <p className="absolute w-full text-red-700 font-bold text-sm whitespace-nowrap animate-marquee flex items-center">
+                 Server Maintenance scheduled for Sunday 2 AM - 4 AM. Please complete settlements before 1 AM.
+               </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="max-w-[1600px] mx-auto px-6 py-10 space-y-12">
+        
+        {/* --- 1. Service Sections (Rectangular Layout) --- */}
+        <motion.div 
+          className="space-y-10"
+          variants={containerVar}
+          initial="hidden"
+          animate="visible"
+        >
+          {serviceCategories.map((category, idx) => (
+            <div key={idx} className="relative">
+              {/* Category Header */}
+              <div className="flex items-center gap-3 mb-5 pl-2">
+                <div className="w-1 h-6 bg-slate-300 rounded-full"></div>
+                <h3 className="text-lg font-extrabold text-slate-700 tracking-tight flex items-center gap-2 uppercase">
+                  {category.title}
+                </h3>
+              </div>
+              
+              {/* Pro Action Cards Grid */}
+              <motion.div 
+                variants={containerVar}
+                className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4"
+              >
+                {category.items.map((item, i) => (
+                  <motion.div 
+                    key={i} 
+                    variants={itemVar}
+                    onClick={() => handleNavigation(item.path)}
+                    className="bg-white rounded-2xl p-3 pl-5 border border-slate-200 shadow-sm hover:shadow-xl hover:border-slate-300 transition-all duration-300 cursor-pointer group flex items-center justify-between gap-3 active:scale-[0.98] relative overflow-hidden"
+                  >
+                    {/* Background Hover Effect */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-slate-50 to-white opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+
+                    {/* Left: Text Label */}
+                    <div className="flex-1 min-w-0 relative z-10">
+                        <h4 className="text-sm font-bold text-slate-700 group-hover:text-slate-900 truncate">
+                            {item.label}
+                        </h4>
+                        <p className="text-[10px] text-slate-400 font-medium group-hover:text-slate-500 transition-colors flex items-center gap-1">
+                            Proceed <ChevronRight size={10} />
+                        </p>
+                    </div>
+
+                    {/* Right: Premium Icon Container */}
+                    <div 
+                      className={`
+                        w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-300 shrink-0 relative z-10 shadow-md group-hover:scale-110 group-hover:rotate-3
+                        ${getGradientStyle(item.color)}
+                      `}
+                    >
+                      <item.icon size={20} strokeWidth={2} className="text-white" />
+                    </div>
+                  </motion.div>
+                ))}
+              </motion.div>
+            </div>
+          ))}
         </motion.div>
 
-      </motion.div>
+        {/* --- 2. Analytics & Updates --- */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 pt-6 border-t border-slate-200">
+          
+          {/* Summary Section */}
+          <div className="lg:col-span-8 bg-white rounded-[2rem] shadow-sm border border-slate-200 p-8">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+              <div>
+                <h3 className="text-xl font-bold text-slate-800">
+                  {tabContent[activeTab].header}
+                </h3>
+                <p className="text-xs text-slate-400 font-bold uppercase tracking-wider mt-1">Real-time Data</p>
+              </div>
+              
+              {/* Segmented Tabs */}
+              <div className="bg-slate-100 p-1.5 rounded-2xl flex overflow-x-auto no-scrollbar max-w-full">
+                {Object.keys(tabContent).map((tab) => (
+                  <button 
+                    key={tab}
+                    onClick={() => setActiveTab(tab)}
+                    className={`px-5 py-2.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap ${
+                      activeTab === tab 
+                      ? 'bg-white text-slate-900 shadow-sm ring-1 ring-black/5' 
+                      : 'text-slate-500 hover:text-slate-700 hover:bg-slate-200/50'
+                    }`}
+                  >
+                    {tab}
+                  </button>
+                ))}
+              </div>
+            </div>
 
-      {/* Sticky Bottom Dock */}
-      <FloatingDock navigate={navigate} onComingSoon={handleComingSoon} />
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
+              <AnimatePresence mode="wait">
+                {tabContent[activeTab].cards.map((card, idx) => (
+                  <motion.div 
+                    key={card.label + idx}
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.2 }}
+                    onClick={() => handleNavigation(card.path)}
+                    className={`
+                      relative overflow-hidden rounded-3xl p-6 flex flex-col justify-center items-center text-center cursor-pointer group transition-all hover:shadow-lg
+                      ${card.wide ? 'col-span-2 md:col-span-4 bg-gradient-to-r from-slate-900 to-slate-800 text-white' : 'bg-slate-50 hover:bg-white border border-slate-100 hover:border-slate-200 text-slate-800'}
+                    `}
+                  >
+                    {!card.wide && <div className={`absolute top-0 left-0 w-full h-1.5 ${getBarColor(card.color)} opacity-80`}></div>}
+                    <p className={`text-[10px] font-bold uppercase tracking-widest mb-2 ${card.wide ? 'text-slate-400' : 'text-slate-400'}`}>{card.label}</p>
+                    <p className="text-3xl font-extrabold tracking-tight">{card.value}</p>
+                    
+                    {/* Hover Arrow */}
+                    {card.path && (
+                      <div className={`absolute bottom-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity ${card.wide ? 'text-white' : 'text-slate-400'}`}>
+                        <ArrowRight size={16} />
+                      </div>
+                    )}
+                  </motion.div>
+                ))}
+              </AnimatePresence>
+            </div>
+          </div>
+
+          {/* Live Updates & Alerts */}
+          <div className="lg:col-span-4 space-y-6">
+            <div className="bg-white rounded-[2rem] shadow-sm border border-slate-200 overflow-hidden">
+              <div className="px-8 py-5 border-b border-slate-100 flex items-center gap-2 bg-slate-50/50">
+                <div className="w-2.5 h-2.5 rounded-full bg-rose-500 animate-ping"></div>
+                <h3 className="font-bold text-slate-800">Bank Status</h3>
+              </div>
+              <div className="p-6 space-y-4">
+                {['ALLAHABAD BANK', 'ORIENTAL BANK', 'PAYTM BANK'].map((bank, i) => (
+                  <div key={i} className="flex items-center justify-between p-4 bg-amber-50 rounded-2xl border border-amber-100/50">
+                    <span className="text-xs font-bold text-amber-900">{bank}</span>
+                    <span className="px-3 py-1 bg-white rounded-lg text-[10px] font-bold text-rose-600 border border-rose-100 shadow-sm">DOWN</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="bg-gradient-to-br from-indigo-600 to-violet-700 rounded-[2rem] shadow-xl shadow-indigo-200 p-8 text-white text-center flex flex-col items-center justify-center min-h-[220px] relative overflow-hidden">
+               <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-2xl -mr-10 -mt-10"></div>
+               
+               <div className="w-16 h-16 rounded-2xl bg-white/10 flex items-center justify-center mb-4 backdrop-blur-sm border border-white/10 relative z-10">
+                  <RefreshCw size={28} className="text-white" />
+               </div>
+               <p className="text-sm font-bold text-indigo-100 relative z-10">No recent transactions</p>
+               <button onClick={() => navigate('/retailer/reports')} className="mt-5 px-8 py-3 bg-white text-indigo-900 rounded-xl text-xs font-bold hover:bg-indigo-50 transition-colors shadow-lg relative z-10">
+                  View Ledger
+               </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
     </div>
   );
+};
+
+// --- Helper: Gradient Styles for Icons (The "Better Favicon" Look) ---
+const getGradientStyle = (color) => {
+  const gradients = {
+    purple: "bg-gradient-to-br from-purple-500 to-indigo-600 shadow-purple-500/30",
+    emerald: "bg-gradient-to-br from-emerald-400 to-teal-500 shadow-emerald-500/30",
+    green: "bg-gradient-to-br from-green-500 to-emerald-600 shadow-green-500/30",
+    blue: "bg-gradient-to-br from-blue-500 to-indigo-500 shadow-blue-500/30",
+    orange: "bg-gradient-to-br from-orange-400 to-red-500 shadow-orange-500/30",
+    pink: "bg-gradient-to-br from-pink-500 to-rose-500 shadow-pink-500/30",
+    red: "bg-gradient-to-br from-red-500 to-rose-600 shadow-red-500/30",
+    cyan: "bg-gradient-to-br from-cyan-400 to-blue-500 shadow-cyan-500/30",
+    yellow: "bg-gradient-to-br from-amber-400 to-orange-500 shadow-amber-500/30",
+    teal: "bg-gradient-to-br from-teal-400 to-emerald-500 shadow-teal-500/30",
+    indigo: "bg-gradient-to-br from-indigo-500 to-purple-600 shadow-indigo-500/30",
+    rose: "bg-gradient-to-br from-rose-500 to-pink-600 shadow-rose-500/30",
+    sky: "bg-gradient-to-br from-sky-400 to-blue-500 shadow-sky-500/30",
+  };
+  return gradients[color] || gradients.blue;
+};
+
+const getBarColor = (color) => {
+  const bars = {
+    emerald: "bg-emerald-500",
+    rose: "bg-rose-500",
+    amber: "bg-amber-500",
+    sky: "bg-sky-500",
+    blue: "bg-blue-500",
+    violet: "bg-violet-500",
+    cyan: "bg-cyan-500",
+    slate: "bg-slate-500",
+  };
+  return bars[color] || "bg-slate-500";
 };
 
 export default RetailerDashboard;

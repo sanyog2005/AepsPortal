@@ -129,7 +129,7 @@ const ActionButton = ({ label, icon: Icon, color, onClick, badge }) => (
   </motion.button>
 );
 
-const AdminDashboard = () => {
+const DistDashboardHome = () => {
   const navigate = useNavigate();
 
   return (
@@ -283,4 +283,4 @@ const AdminDashboard = () => {
   );
 };
 
-export default AdminDashboard;
+export default DistDashboardHome;
